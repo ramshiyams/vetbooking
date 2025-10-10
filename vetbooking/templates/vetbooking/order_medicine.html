@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Order Medicine: {{ medicine.name }}</h2>
+    <p>Price: ₹{{ medicine.price }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+        <button type="submit" class="button">Buy Now</button>
+    </form>
+</div>
+{% endblock %}

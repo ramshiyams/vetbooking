@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VetOnClick</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa;
+        }
+        header {
+            background: #00b894;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        header nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: url("{% static 'images/dg.jpg' %}") no-repeat center center/cover;
+            color: white;
+        }
+        .hero h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .hero .btn {
+            padding: 15px 30px;
+            background: #ff9800;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .hero .btn:hover {
+            background: #fb8c00;
+        }
+        .services {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 50px 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 250px;
+            text-align: center;
+        }
+        .card h3 {
+            color: #0288d1;
+            margin-bottom: 15px;
+        }
+        .card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+</style>
+</head>
+<body>
+    <header>
+        <h1>VetOnClick</h1>
+        <nav>
+            <a href="{% url 'signup' %}">Sign Up</a>
+            <a href="{% url 'login' %}">Login</a>
+        </nav>
+    </header>
+
+     <section class="hero">
+        <h2>Your Pet's Health, Our Priority</h2>
+        <p>Book appointments with trusted veterinarians and buy medicines online.</p>
+
+    </section>
+
+    <section class="services">
+        <div class="card">
+            <a href="{% url 'book_vet' %}">
+                <h3>Book a Vet</h3>
+                <p>Find certified vets near you and schedule appointments easily.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="{% url 'products' %}">
+                <h3>Buy Medicines</h3>
+                <p>Order your pet's medicines online with fast delivery.</p>
+            </a>
+        </div>
+        <div class="card">
+            <h3>Health Tips</h3>
+            <p>Get expert advice and tips to keep your pets healthy and happy.</p>
+        </div>
+    </section>
+</body>
+</html>

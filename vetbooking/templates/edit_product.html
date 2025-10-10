@@ -1,0 +1,9 @@
+<h2>Edit Product: {{ product.name }}</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Product</button>
+</form>
+
+<a href="{% url 'admin_product_list' %}">Back to Products</a>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h2 class="mb-3">Book Vet Appointment</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Choose Vet:</label>
+    <select name="vet_id" class="form-control mb-2" required>
+        {% for v in vets %}
+        <option value="{{ v.id }}">{{ v.name }} - {{ v.specialization }}{% if v.location %} - {{ v.location }}{% endif %}</option>
+        {% endfor %}
+    </select>
+
+    <label>Choose Pet:</label>
+    <select name="pet_id" class="form-control mb-2" required>
+        {% for p in pets %}
+        <option value="{{ p.id }}">{{ p.name }} {{ p.age }} ({{ p.pet_type }})</option>
+        {% endfor %}
+    </select>
+
+    <label>Date:</label>
+    <input type="date" name="date" class="form-control mb-2" required min="{{ today }}">
+
+    <label>Time:</label>
+    <input type="time" name="time" class="form-control mb-2" required>
+
+    <label>Notes:</label>
+    <textarea name="notes" class="form-control mb-2" placeholder="Additional notes"></textarea>
+
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+</form>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+        {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}

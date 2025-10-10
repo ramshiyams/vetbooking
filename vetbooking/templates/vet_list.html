@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Manage Veterinarians</h2>
+    <a href="{% url 'add_vet' %}" class="btn btn-success mb-3">Add New Vet</a>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Experience</th>
+                <th>Available</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vet in vets %}
+            <tr>
+                <td>{{ vet.name }}</td>
+                <td>{{ vet.specialization }}</td>
+                <td>{{ vet.experience }} yrs</td>
+                <td>{{ vet.is_available|yesno:"Yes,No" }}</td>
+                <td>
+                    <a href="{% url 'edit_vet' vet.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'delete_vet' vet.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

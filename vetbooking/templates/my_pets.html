@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="mb-3 text-center">My Pets</h3>
+  {% if pets %}
+  <div class="row">
+    {% for pet in pets %}
+    <div class="col-md-4">
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ pet.name }}</h5>
+          <p class="card-text">Type: {{ pet.pet_type }}</p>
+          <p class="card-text">Age: {{ pet.age }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center">You haven’t added any pets yet. <a href="{% url 'add_pet' %}">Add one now</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

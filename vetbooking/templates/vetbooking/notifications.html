@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+<h2>Notifications</h2>
+
+{% if notifications %}
+<ul>
+    {% for note in notifications %}
+    <li>
+        {{ note.message }} - {{ note.created_at }}
+        {% if not note.read %}<strong>(New)</strong>{% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No notifications.</p>
+{% endif %}

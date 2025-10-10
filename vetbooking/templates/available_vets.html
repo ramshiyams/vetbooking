@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Available Veterinary Doctors</h2>
+    <div class="row">
+        {% for vet in vets %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                {% if vet.image %}
+                <img src="{{ vet.image.url }}" class="card-img-top" alt="{{ vet.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5>{{ vet.name }}</h5>
+                    <p>Specialization: {{ vet.specialization }}</p>
+                    <p>Experience: {{ vet.experience }} years</p>
+                    <p>Available: {{ vet.available_days }} at {{ vet.available_time }}</p>
+                    <a href="{% url 'book_appointment' vet.id %}" class="btn btn-primary btn-sm">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No available vets at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

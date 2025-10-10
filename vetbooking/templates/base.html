@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetOnClick</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+   <header>
+    <div class="container">
+        <a href="{% url 'home' %}" style="color:white; text-decoration:none;">VetOnClick</a>
+
+        <nav style="float:right;">
+            {% if user.is_authenticated %}
+
+                <a href="{% url 'add_pet' %}">Add Pet</a> |
+                <a href="{% url 'book_vet' %}">Book Vet</a> |
+                <a href="{% url 'products' %}">Buy Medicines</a> |
+                <a href="{% url 'notifications' %}">Notifications</a> |
+
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> |
+                <a href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        <!-- Page-specific content will go here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; {{ current_year }} VetOnClick. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
