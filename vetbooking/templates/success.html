@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5" style="max-width:700px;">
+  <div class="card shadow p-4 text-center">
+    <h2 class="text-success mb-4">✅ Payment Successful!</h2>
+
+    {% if session %}
+      <p>Payment Amount: ₹{{ session.amount_total|divisibleby:100 }}</p>
+      <p>Email: {{ session.customer_details.email }}</p>
+    {% else %}
+      <p>No session data available.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Home</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<!-- vetbooking/booking_success.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container text-center mt-5">
+  <h2>✅ Booking Confirmed Successfully!</h2>
+  <p>Thank you for your purchase.</p>
+  <a href="{% url 'products' %}" class="btn btn-primary mt-3">Back to Shop</a>
+</div>
+{% endblock %}

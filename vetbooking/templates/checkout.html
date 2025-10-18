@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">🧾 Checkout</h2>
+
+    <form id="checkoutForm" method="POST" action="{% url 'place_order' %}">
+      {% csrf_token %}
+
+      <h4>Billing & Delivery Information</h4>
+      <div class="mb-3">
+        <label>Full Name</label>
+        <input type="text" name="full_name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label>Phone</label>
+        <input type="text" name="phone" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label>Address</label>
+        <textarea name="address" class="form-control" required></textarea>
+      </div>
+      <div class="row">
+        <div class="col mb-3">
+          <label>City</label>
+          <input type="text" name="city" class="form-control" required>
+        </div>
+        <div class="col mb-3">
+          <label>State</label>
+          <input type="text" name="state" class="form-control" required>
+        </div>
+        <div class="col mb-3">
+          <label>Zip Code</label>
+          <input type="text" name="zip_code" class="form-control" required>
+        </div>
+      </div>
+
+      <h4 class="mt-4">Your Cart</h4>
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Product</th>
+            <th>Price (₹)</th>
+            <th>Quantity</th>
+            <th>Total (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+          <tr data-product-id="{{ item.product.id }}" data-name="{{ item.product.name }}" data-price="{{ item.product.price }}" data-quantity="{{ item.quantity }}">
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h4 class="mt-4">Payment</h4>
+      <button type="button" id="payButton" class="btn btn-success w-100">
+        💳 Pay Now (Stripe)
+      </button>
+    </form>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      document.getElementById('payButton').addEventListener('click', async () => {
+        // Gather cart items dynamically
+        const rows = document.querySelectorAll('tbody tr');
+        const cart = Array.from(rows).map(row => ({
+          id: row.dataset.productId,
+          name: row.dataset.name,
+          price: parseFloat(row.dataset.price),
+          quantity: parseInt(row.dataset.quantity)
+        }));
+
+        try {
+          const response = await fetch("{% url 'create_checkout_session' %}", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrftoken
+            },
+            body: JSON.stringify({ cart })
+          });
+
+          const data = await response.json();
+          if (data.error) {
+            alert(data.error);
+          } else {
+            window.location.href = data.url; // Redirect to Stripe Checkout
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Payment initiation failed. Try again!");
+        }
+      });
+    </script>
+</div>
+{% endblock %}
