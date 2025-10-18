@@ -4,9 +4,17 @@
 <div class="container mt-5" style="max-width: 700px;">
   <div class="card shadow p-4">
     <h2 class="text-center mb-4">🧾 Checkout</h2>
+      {% comment %} In checkout.html, around line 8 {% endcomment %}
 
-    <form id="checkoutForm" method="POST" action="{% url 'place_order' %}">
-      {% csrf_token %}
+{# Assuming your 'checkout' view passes 'product_id' into the context if present #}
+{% if product_id %}
+      <form id="checkoutForm" method="POST" action="{% url 'place_order' %}?product_id={{ product_id }}">
+          {% else %}
+          <form id="checkoutForm" method="POST" action="{% url 'place_order' %}">
+{% endif %}
+  {% csrf_token %}
+{# ... rest of the form ... #}
+
 
       <h4>Billing & Delivery Information</h4>
       <div class="mb-3">
@@ -42,25 +50,36 @@
 
       <h4 class="mt-4">Your Cart</h4>
       <table class="table table-bordered">
-        <thead class="table-light">
-          <tr>
-            <th>Product</th>
-            <th>Price (₹)</th>
-            <th>Quantity</th>
-            <th>Total (₹)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in cart_items %}
-          <tr data-product-id="{{ item.product.id }}" data-name="{{ item.product.name }}" data-price="{{ item.product.price }}" data-quantity="{{ item.quantity }}">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price (₹)</th>
+      <th>Quantity</th>
+      <th>Total (₹)</th>
+    </tr>
+  </thead>
+<tbody>
+{% if cart_items %}
+    {% for item in cart_items %}
+        <tr data-product-id="{{ item.product.id }}"
+            data-name="{{ item.product.name }}"
+            data-price="{{ item.product.price }}"
+            data-quantity="{{ item.quantity }}">
             <td>{{ item.product.name }}</td>
             <td>{{ item.product.price }}</td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.total_price }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr><td colspan="4">Your cart is empty.</td></tr>
+{% endif %}
+</tbody>
+
+
+
+</table>
+
 
       <h4 class="mt-4">Payment</h4>
       <button type="button" id="payButton" class="btn btn-success w-100">
@@ -69,40 +88,40 @@
     </form>
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script>
-      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-      document.getElementById('payButton').addEventListener('click', async () => {
-        // Gather cart items dynamically
-        const rows = document.querySelectorAll('tbody tr');
-        const cart = Array.from(rows).map(row => ({
-          id: row.dataset.productId,
-          name: row.dataset.name,
-          price: parseFloat(row.dataset.price),
-          quantity: parseInt(row.dataset.quantity)
-        }));
+document.getElementById('payButton').addEventListener('click', async () => {
+    const rows = document.querySelectorAll('tbody tr[data-product-id]');
+    const cart = Array.from(rows).map(row => ({
+        id: row.dataset.productId,
+        name: row.dataset.name,
+        price: parseFloat(row.dataset.price),
+        quantity: parseInt(row.dataset.quantity)
+    }));
 
-        try {
-          const response = await fetch("{% url 'create_checkout_session' %}", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": csrftoken
-            },
-            body: JSON.stringify({ cart })
-          });
+    if(cart.length === 0){
+        alert("Your cart is empty!");
+        return;
+    }
 
-          const data = await response.json();
-          if (data.error) {
-            alert(data.error);
-          } else {
-            window.location.href = data.url; // Redirect to Stripe Checkout
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Payment initiation failed. Try again!");
-        }
-      });
-    </script>
-</div>
+    const response = await fetch("{% url 'create_checkout_session' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken
+        },
+        body: JSON.stringify({ cart })
+    });
+
+    const data = await response.json();
+    if(data.error){
+        alert(data.error);
+    } else {
+        window.location.href = data.url;
+    }
+});
+</script>
+
 {% endblock %}

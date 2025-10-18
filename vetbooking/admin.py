@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+
 from .models import Pet, Vet, Appointment, Order, Notification, VetBooking
 from .models import Product
 # 🐾 Pet Admin
@@ -28,11 +30,26 @@ class VetBookingAdmin(admin.ModelAdmin):
 # 📅 Appointment Admin
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'vet', 'pet', 'date', 'time')
-    search_fields = ('user__username', 'vet__name', 'pet__name')
-    list_filter = ('date', 'vet')
-    ordering = ('-date',)
+    list_display = ('user', 'vet', 'date', 'status_colored')
+    list_filter = ('status',)
 
+    def status_colored(self, obj):
+        color = {
+            'Pending': 'orange',
+            'Approved': 'green',
+            'Cancelled': 'red'
+        }.get(obj.status, 'black')
+        return format_html(f'<b style="color:{color}">{obj.status}</b>')
+    status_colored.short_description = 'Status'
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if obj.status == 'Approved':
+            Notification.objects.update_or_create(
+                user=obj.user,
+                message=f"Your appointment with Dr. {obj.vet.name} has been approved.",
+                defaults={'status': 'Approved'}
+            )
 
 # 🛍️ Product Admin
 @admin.register(Product)

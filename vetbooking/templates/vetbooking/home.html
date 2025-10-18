@@ -1,121 +1,202 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>VetOnClick</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f8f9fa;
-        }
-        header {
-            background: #00b894;
-            color: white;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-        header nav a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        header nav a:hover {
-            text-decoration: underline;
-        }
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-            background: url("{% static 'images/dg.jpg' %}") no-repeat center center/cover;
-            color: white;
-        }
-        .hero h2 {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-        .hero .btn {
-            padding: 15px 30px;
-            background: #ff9800;
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        .hero .btn:hover {
-            background: #fb8c00;
-        }
-        .services {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin: 50px 0;
-        }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            width: 250px;
-            text-align: center;
-        }
-        .card h3 {
-            color: #0288d1;
-            margin-bottom: 15px;
-        }
-        .card p {
-            font-size: 14px;
-            color: #555;
-        }
+
+{% block content %}
+<style>
+
+ .testimonials { padding:70px 20px; background:#fff3e0; text-align:center; }
+.testimonials h2 { font-size:36px; margin-bottom:50px; }
+.testimonial-card { background:white; padding:25px; border-radius:15px; width:300px; display:inline-block; margin:15px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+.testimonial-card p { font-style:italic; color:#555; }
+.testimonial-card strong { display:block; margin-top:10px; color:#0288d1; }
+.vet-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition:0.3s; }
+@media (max-width: 992px){
+    .services, .feature-grid, .d-flex { flex-direction: column; align-items: center; }
+    .hero h2 { font-size:36px; }
+    .hero p { font-size:16px; }
+}
+.services { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin:50px 0; }
+.card { background:white; padding:30px 20px; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,0.1); width:280px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
+.card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.card h3 { color:#0288d1; margin-bottom:15px; }
+.card p { font-size:15px; color:#555; }
+
+
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    background: url("{% static 'images/bgofpro.jpeg' %}") no-repeat center/cover;
+    color: white;
+    position: relative;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+}
+.hero-content { position: relative; z-index: 2; }
+.hero h2 { font-size: 48px; margin-bottom: 20px; }
+.hero p { font-size: 20px; margin-bottom: 30px; }
+.hero .btn { padding: 15px 35px; border-radius: 5px; font-size: 18px; margin: 0 10px; transition:0.3s; }
+.hero .btn:hover { opacity: 0.9; }
+.btn-success { background: #00b894; color:white; }
+.btn-success:hover { background: #00997a; }
+
+.features { background:#f1f2f6; padding:70px 20px; text-align:center; }
+.features h2 { font-size:36px; margin-bottom:40px; }
+.feature-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; }
+.feature-item { background:white; padding:25px; border-radius:15px; width:250px; box-shadow:0 6px 18px rgba(0,0,0,0.08); transition: transform 0.3s; }
+.feature-item:hover { transform: translateY(-8px); }
+.feature-item img { width:80px; margin-bottom:15px; }
+.feature-item h4 { margin-bottom:10px; color:#00b894; }
+.feature-item p { font-size:14px; color:#555; }
+
+.services { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin:50px 0; }
+.card { background:white; padding:30px 20px; border-radius:15px; box-shadow:0 6px 18px rgba(0,0,0,0.1); width:280px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
+.card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.card h3 { color:#0288d1; margin-bottom:15px; }
+.card p { font-size:15px; color:#555; }
+
+/* ====== HERO SECTION ====== */
+.hero {
+    text-align: center;
+    padding: 120px 20px;
+    background: url("{% static 'images/bgofpro.jpeg' %}") no-repeat center/cover;
+    color: white;
+    position: relative;
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+}
+.hero-content { position: relative; z-index: 2; }
+.hero h2 { font-size: 48px; margin-bottom: 20px; }
+.hero p { font-size: 20px; margin-bottom: 30px; }
+.hero .btn { padding: 15px 35px; border-radius: 5px; font-size: 18px; margin: 0 10px; transition:0.3s; }
+.hero .btn:hover { opacity: 0.9; }
+.btn-success { background: #00b894; color:white; }
+.btn-success:hover { background: #00997a; }
 
 </style>
-</head>
-<body>
-    <header>
-        <h1>VetOnClick</h1>
-        <nav>
-            <a href="{% url 'signup' %}">Sign Up</a>
-            <a href="{% url 'login' %}">Login</a>
-        </nav>
-    </header>
 
-     <section class="hero">
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
         <h2>Your Pet's Health, Our Priority</h2>
-        <p>Book appointments with trusted veterinarians and buy medicines online.</p>
+        <p>Book trusted vets, buy products online, and schedule home vaccinations.</p>
+        <a href="{% url 'vaccination_home' %}" class="btn btn-success">Vaccinations at Home</a>
+    </div>
+</section>
 
-    </section>
-
-    <section class="services">
-        <div class="card">
-            <a href="{% url 'book_vet' %}">
-                <h3>Book a Vet</h3>
-                <p>Find certified vets near you and schedule appointments easily.</p>
-            </a>
-        </div>
-        <div class="card">
-            <a href="{% url 'products' %}">
-                <h3>Buy Medicines</h3>
-                <p>Order your pet's medicines online with fast delivery.</p>
-            </a>
-        </div>
-        <div class="card">
+<section class="services">
+    <div class="card">
+        <a href="{% url 'book_vet' %}">
+            <h3>Book a Vet</h3>
+            <p>Find certified vets near you and schedule appointments easily.</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="{% url 'product_list' %}">
+            <h3>Buy Product</h3>
+            <p>Order your pet's toy's online with fast delivery.</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="{% url 'health_tips' %}">
             <h3>Health Tips</h3>
             <p>Get expert advice and tips to keep your pets healthy and happy.</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="{% url 'vaccination_home' %}">
+            <h3>Vaccinations at Home</h3>
+            <p>Book professional vets for home vaccinations for your pets.</p>
+        </a>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features">
+    <h2>Why Choose VetOnClick?</h2>
+    <div class="feature-grid">
+        <div class="feature-item">
+            <img src="{% static 'images/cert.jpeg' %}" alt="Certified Vets">
+            <h4>Certified Vets</h4>
+            <p>Our team consists of certified and experienced veterinary professionals.</p>
         </div>
-    </section>
-</body>
-</html>
+        <div class="feature-item">
+            <img src="{% static 'images/fastdel.jpeg' %}" alt="Fast Delivery">
+            <h4>Fast Delivery</h4>
+            <p>Get medicines delivered to your doorstep quickly and safely.</p>
+        </div>
+        <div class="feature-item">
+            <img src="{% static 'images/twn.png' %}" alt="24/7 Support">
+            <h4>24/7 Support</h4>
+            <p>We are available round-the-clock to answer your queries and help pets.</p>
+        </div>
+        <div class="feature-item">
+            <img src="{% static 'images/vacc.jpeg' %}" alt="Vaccinations">
+            <h4>Vaccinations at Home</h4>
+            <p>Professional vets provide home vaccination services for your pets.</p>
+        </div>
+    </div>
+</section>
+<!-- OUR EXPERT VETS SECTION -->
+<section class="our-vets" style="background:#f9f9f9; padding:70px 20px; text-align:center;">
+  <h2 style="font-size:36px; color:#00796b; margin-bottom:50px;">Our Expert Vets 🐾</h2>
+
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:30px;">
+    <!-- Vet 1 -->
+    <div style="background:white; border-radius:15px; width:280px; box-shadow:0 6px 18px rgba(0,0,0,0.1); padding:20px;">
+      <img src="{% static 'images/vet1n.jpg' %}" alt="Dr. Neha Sharma" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:15px;">
+      <h4 style="color:#0288d1;">Dr. Neha Sharma</h4>
+      <p style="font-size:14px; color:#666;">🐶 Specialist in small animal medicine and vaccinations.
+      Over 10 years of experience in pet wellness and surgery.</p>
+    </div>
+
+    <!-- Vet 2 -->
+    <div style="background:white; border-radius:15px; width:280px; box-shadow:0 6px 18px rgba(0,0,0,0.1); padding:20px;">
+      <img src="{% static 'images/vet3.jpg' %}" alt="Dr. Rahul Menon" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:15px;">
+      <h4 style="color:#0288d1;">Dr. Rahul Menon</h4>
+      <p style="font-size:14px; color:#666;">🐕 Expert in canine and feline surgery.
+      Known for his compassionate care and modern treatment techniques.</p>
+    </div>
+
+    <!-- Vet 3 -->
+    <div style="background:white; border-radius:15px; width:280px; box-shadow:0 6px 18px rgba(0,0,0,0.1); padding:20px;">
+      <img src="{% static 'images/vet2.jpg' %}" alt="Dr. Aisha Thomas" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:15px;">
+      <h4 style="color:#0288d1;">Dr.  Thomas</h4>
+      <p style="font-size:14px; color:#666;">🐾 Specialist in exotic pets and home vaccinations.
+      Passionate about preventive care and pet nutrition.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <a href="{% url 'book_vet' %}" class="btn btn-primary"
+       style="background:#ff9800; color:white; padding:12px 30px; border-radius:6px; text-decoration:none; font-size:18px;">
+       Book an Appointment with Our Experts
+    </a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonial-card">
+        <p>"VetOnClick made booking a vet so easy and reliable. Highly recommend!"</p>
+        <strong>- Alice</strong>
+    </div>
+    <div class="testimonial-card">
+        <p>"I received my pet's medicines at home on time. Great service!"</p>
+        <strong>- Bob</strong>
+    </div>
+    <div class="testimonial-card">
+        <p>"Excellent advice and professional vets. My pet is healthy and happy!"</p>
+        <strong>- Carol</strong>
+    </div>
+</section>
+
+{% endblock %}

@@ -141,16 +141,12 @@
 
         <div class="col-md-4">
             <div class="dashboard-card">
-                <i class="bi bi-bag-heart-fill"></i>
-                <h4>Total Products</h4>
-                <p class="fs-3 text-danger">{{ products_count }}</p>
-                <a href="{% url 'admin_products' %}" class="btn-manage">Manage Products</a>
-            </div>
-        </div>
+            <i class="bi bi-bag-heart-fill"></i>
+            <h4>Total Products</h4>
+            <p class="fs-3 text-danger">{{ products_count }}</p>
+            <a href="/admin/vetbooking/product/" class="btn-manage">Manage Products</a>
     </div>
-
-    <div class="text-center mt-5">
-        <a href="{% url 'logout' %}" class="btn btn-danger px-4">Logout</a>
+</div>
     </div>
 </main>
 

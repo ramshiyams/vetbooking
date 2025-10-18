@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width:500px; margin:50px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px #ccc;">
+    <h2>Order Bill</h2>
+    <p><strong>Product:</strong> {{ order.product.name }}</p>
+    <p><strong>Price:</strong> ₹{{ order.product.price }}</p>
+    <p><strong>User:</strong> {{ order.user.username }}</p>
+    <p><strong>Date:</strong> {{ order.created_at }}</p>
+    
+    <form action="{% url 'payment_page' order.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" style="background:#0288d1; color:white; padding:10px 15px; border:none; border-radius:5px;">
+            Pay Now
+        </button>
+    </form>
+</div>
+{% endblock %}

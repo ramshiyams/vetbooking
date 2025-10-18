@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5" style="max-width:700px;">
+    <div class="card shadow p-4">
+        <h2 class="text-center mb-4">🏠 Pet Vaccinations at Home</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>Select Pet</label>
+                <select name="pet_id" class="form-control" required>
+                    {% for pet in pets %}
+                    <option value="{{ pet.id }}">{{ pet.name }} - {{ pet.pet_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Select Vet</label>
+                <select name="vet_id" class="form-control" required>
+                    {% for vet in vets %}
+                    <option value="{{ vet.id }}">{{ vet.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Date</label>
+                <input type="date" name="date" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Time</label>
+                <input type="time" name="time" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Notes</label>
+                <textarea name="notes" class="form-control" placeholder="Optional notes"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Book Vaccination</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

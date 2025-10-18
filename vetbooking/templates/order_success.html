@@ -1,10 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.success-container {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+    border-radius: 20px;
+    margin: 50px auto;
+    width: 80%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.success-container img {
+    width: 150px;
+    margin-bottom: 20px;
+}
+.success-container h2 {
+    font-size: 36px;
+    color: #2e7d32;
+}
+.success-container p {
+    font-size: 18px;
+    color: #333;
+    margin: 20px 0;
+}
+.success-container a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: #43a047;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.success-container a:hover {
+    background: #2e7d32;
+}
+</style>
+
+<div class="success-container">
+    <img src="{% static 'images/download.gif' %}" alt="Success">
+    <h2>Order Placed Successfully!</h2>
+    <p>Thank you for your purchase. Your order will be processed soon.</p>
+    <a href="{% url 'products' %}">Continue Shopping</a>
+</div>
+{% endblock %}

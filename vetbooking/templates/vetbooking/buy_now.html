@@ -10,9 +10,8 @@
 
   <form method="POST" action="{% url 'buy_product' product.id %}">
     {% csrf_token %}
-    <button type="submit" style="background:#0288d1; color:white; padding:10px 15px; border:none; border-radius:5px;">
-      Confirm Buy
-    </button>
+   <a href="{% url 'checkout' %}?product_id={{ product.id }}" class="btn btn-primary">Confirm to Buy</a>
+
   </form>
 </div>
 {% endblock %}

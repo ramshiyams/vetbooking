@@ -32,12 +32,5 @@
     <button type="submit" class="btn btn-primary">Book Appointment</button>
 </form>
 
-{% if messages %}
-  {% for message in messages %}
-    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
-        {{ message }}
-    </div>
-  {% endfor %}
-{% endif %}
 
 {% endblock %}

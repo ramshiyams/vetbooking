@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %} {# Or your main base template #}
+
+{% block content %}
+<div class="container" style="margin-top: 40px; margin-bottom: 40px;">
+    <h2><i class="fas fa-receipt"></i> Your Order History</h2>
+    <hr>
+
+    {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Items</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.created_at|date:"d M Y" }}</td>
+                        <td>₹{{ order.total_amount }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <ul>
+                            {% for item in order.orderitem_set.all %} {# Assumes related name is 'orderitem_set' #}
+                                <li>{{ item.quantity }} x {{ item.product.name }}</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You have not placed any orders yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

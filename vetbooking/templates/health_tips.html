@@ -1,10 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+/* ===== HERO ===== */
+.hero {
+    background: linear-gradient(90deg,#00b894,#00997a);
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+.hero h2 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+.hero p {
+    font-size: 18px;
+}
+
+/* ===== TIPS SECTION ===== */
+.tips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 50px;
+}
+.tip-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    width: 280px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.tip-card:hover {
+    transform: translateY(-10px);
+}
+.tip-card h3 {
+    color: #00b894;
+    margin-bottom: 15px;
+}
+
+/* ===== FAQ SECTION ===== */
+.faqs {
+    max-width: 900px;
+    margin: auto;
+    margin-bottom: 50px;
+}
+.faq-item {
+    background: #f1f2f6;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.faq-item h4 {
+    cursor: pointer;
+    color: #0288d1;
+}
+.faq-answer {
+    display: none;
+    margin-top: 10px;
+    color: #555;
+}
+
+/* ===== AI TIPS ===== */
+.ai-tips {
+    background: #fff3e0;
+    padding: 40px 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+.ai-tips h3 {
+    color: #ff9800;
+    margin-bottom: 25px;
+}
+.ai-tips ul li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+</style>
+
+<!-- HERO -->
+<section class="hero">
+    <h2>Health Tips for Your Pets</h2>
+    <p>Keep your pets happy, healthy, and stress-free with our expert guidance.</p>
+</section>
+
+<!-- TIPS CARDS -->
+<section class="tips">
+    {% for tip in tips %}
+    <div class="tip-card">
+        <h3>{{ tip.title }}</h3>
+        <p>{{ tip.content }}</p>
+    </div>
+    {% endfor %}
+</section>
+
+<!-- FAQ SECTION -->
+<section class="faqs">
+    <h2 style="text-align:center; margin-bottom:30px;">Common Pet Problems & Solutions</h2>
+    {% for faq in faqs %}
+    <div class="faq-item">
+        <h4 onclick="toggleAnswer(this)">{{ faq.question }}</h4>
+        <div class="faq-answer">{{ faq.answer }}</div>
+    </div>
+    {% endfor %}
+</section>
+
+<!-- AI TIPS SECTION -->
+<section class="ai-tips">
+    <h3>Extra Tips from VetOnClick AI 💡</h3>
+    <ul>
+        {% for tip in ai_tips %}
+        <li>{{ tip }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<script>
+// Toggle FAQ answers
+function toggleAnswer(el){
+    const answer = el.nextElementSibling;
+    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+}
+</script>
+{% endblock %}

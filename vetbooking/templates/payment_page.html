@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width:500px; margin:50px auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px #ccc;">
+    <h2>Payment for {{ order.product.name }}</h2>
+    <p>Amount: ₹{{ order.product.price }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="background:#4caf50; color:white; padding:10px 15px; border:none; border-radius:5px;">
+            Pay ₹{{ order.product.price }}
+        </button>
+    </form>
+</div>
+{% endblock %}
+tml>
